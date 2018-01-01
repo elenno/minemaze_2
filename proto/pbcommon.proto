@@ -1,0 +1,13 @@
+//通用
+
+package PbCommon;
+
+//错误信息返回
+message MsgErrorResp{
+    required int32 error_code = 1;        //错误码
+}
+
+//提示信息返回
+message MsgNoticeResp{
+	required int32 notice_code = 1;       //提示码
+}

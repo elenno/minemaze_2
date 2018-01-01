@@ -1,0 +1,94 @@
+//玩家信息
+
+package PbPlayer;
+
+//玩家信息返回
+message MsgPlayerInfoResp{
+   	required int32 player_id = 1;
+	required string player_name = 2;
+	required int32 story_record = 3;
+	required int32 challenging_maze_type = 4;
+	required int32 challenging_maze_id = 5;
+}
+
+//玩家信息请求
+message MsgPlayerInfoReq{
+}
+
+//玩家全部信息请求（关卡，自定义迷宫等数据）
+message MsgPlayerAllInfoReq{
+}
+
+//玩家修改昵称请求
+message MsgChangeNickNameReq{
+	required string nickname = 1;
+}
+
+//玩家完成迷宫
+message MsgFinishChallengeReq{
+	required int32 maze_type = 1;
+	required int32 maze_id = 2;
+}
+
+//玩家开始迷宫
+message MsgStartChallengeReq{
+	required int32 maze_type = 1;
+	required int32 maze_id = 2;
+}
+
+//玩家上传自定义迷宫
+message MsgUploadCustomMazeReq{
+	required string maze_name = 1;
+	required int32 maze_height = 2;
+	required int32 maze_width = 3;
+	required string maze_map = 4;
+	required int32 start_pos_x = 5;
+	required int32 start_pos_y = 6;
+	required int32 end_pos_x = 7;
+	required int32 end_pos_y = 8;
+	required string head_line = 9;
+	required string head_line_remark = 10;
+	required int32 maze_setting_flag = 11;
+}
+
+//玩家请求获取迷宫信息
+message MsgMazeInfoReq{
+	required int32 maze_type = 1;
+	required int32 maze_id = 2;
+}
+
+//迷宫信息返回
+message MsgMazeInfoResp{
+	required int32 maze_type = 1;
+	required int32 maze_id = 2;
+	required string maze_name = 3;
+	required int32 maze_height = 4;
+	required int32 maze_width = 5;
+	required string maze_map = 6;
+	required int32 start_pos_x = 7;
+	required int32 start_pos_y = 8;
+	required int32 end_pos_x = 9;
+	required int32 end_pos_y = 10;
+	required string head_line = 11;
+	required string head_line_remark = 12;
+	required int32 maze_setting_flag = 13;
+}
+
+//玩家自身迷宫列表请求
+message MsgMyCustomMazeListReq{
+
+}
+
+//自定义迷宫简易数据
+message SimpleCustomMazeInfo{
+	required int32 maze_id = 1;
+	required string maze_name = 2;
+	required int32 maze_height = 3;
+	required int32 maze_width = 4;
+}
+
+//玩家自身迷宫列表返回
+message MsgMyCustomMazeListResp{
+	required int32 maze_count = 1;
+	repeated SimpleCustomMazeInfo maze_list = 2;
+}
