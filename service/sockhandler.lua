@@ -26,10 +26,6 @@ local handler_arr = {
 
 --登录
 function funs.login_req(fd, msg)
-    --TODO test
-    local player_info = skynet.call(player_manager, "lua", "get_player", 501)
-    utils.print(player_info)
-
     utils.print("funs.login_req: fd=" .. fd)
     local player_id = skynet.call(login, "lua", "login", fd, msg)
     if  player_id then
