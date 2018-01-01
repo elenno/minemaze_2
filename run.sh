@@ -1,3 +1,3 @@
 #!/bin/bash
 
-$(pwd)/skynet/skynet config
+sudo $(pwd)/skynet/skynet config

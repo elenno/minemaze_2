@@ -10,6 +10,7 @@ local SOCKET = {}
 local pbc
 local sock_handler
 local redissrv
+local login
 
 --------------------------------------------------------------------------------
 function SOCKET.open(fd, addr)
@@ -19,6 +20,7 @@ end
 
 function SOCKET.close(fd)
     log.log("socket close fd=%d", fd)
+    skynet.send(login, "lua", "on_logout", fd)
 end
 
 function SOCKET.error(fd, msg)
@@ -48,6 +50,7 @@ function CMD.start(conf)
     pbc = skynet.uniqueservice("pbc")
     protopack.pbc = pbc
     sock_handler = skynet.uniqueservice("sockhandler")
+    login = skynet.uniqueservice("login")
     --redissrv = skynet.uniqueservice("redissrv")
 end
 

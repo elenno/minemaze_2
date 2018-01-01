@@ -1,11 +1,9 @@
 
- 
+|
 pblogin.protoPbLogin"0
 MsgLoginReq
 platform (
-user_id (	"T
+user_id (	"0
 MsgLoginRsp
 platform (
-user_id (	
-char_id (
-	char_name (	
+user_id (	

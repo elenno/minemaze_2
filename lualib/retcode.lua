@@ -6,6 +6,7 @@ local ret_arr = {
     --登录
     LOGIN_GUEST_REGISTER_FAIL = 201,                --游客用户创建失败
     LOGIN_PLATFORM_ERROR = 202,                     --平台编号错误
+    LOGIN_ERROR_ACCOUNT_NOT_FOUND = 203,            --账户不存在
     
     --创建房间
     ROOM_CREATE_FAIL = 211,                         --创建房间失败
@@ -36,6 +37,9 @@ local ret_arr = {
     ROOM_READY_NOT_IN_ROOM = 263,                   --不在房间内
     ROOM_READY_IN_OTHER_ROOM = 264,                 --在其它房间
     ROOM_READY_HAD_READY = 265,                     --已经准备
+
+    --提示码
+    NOTICE_CODE_CHANGE_NICKNAME_SUCC = 10001,       --修改昵称成功
 }
 
 return ret_arr
