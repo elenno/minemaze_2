@@ -26,10 +26,15 @@ local handler_arr = {
 
 --登录
 function funs.login_req(fd, msg)
-    utils.print("funs.login_req: fd=" .. fd)
+    --TODO test
+    local player_info = skynet.call(player_manager, "lua", "get_player", 501)
+    utils.print(player_info)
 
-    if skynet.call(login, "lua", "login", fd, msg) 
-    then
+    utils.print("funs.login_req: fd=" .. fd)
+    local player_id = skynet.call(login, "lua", "login", fd, msg)
+    if  player_id then
+        utils.print("login ok send rsp")
+        skynet.send(player_manager, "lua", "on_login", fd, player_id)
         local MsgLoginRsp = {
             platform = msg.platform,
             user_id = msg.user_id
@@ -50,8 +55,7 @@ function funs.player_info_req(fd, msg)
     then
         return
     end
-
-    skynet.send(player_manager, "lua", "on_login", fd, player_id)
+    skynet.send(player_manager, "lua", "on_query_player_info_req", player_id)
 end
 
 --请求修改昵称

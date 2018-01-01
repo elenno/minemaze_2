@@ -20,55 +20,6 @@ local event = {}
 
 message.bind({}, event)
 
-function event:SCError(args)
-	print("error", args.errorcode, args.errormsg)
-
-	if args.errorcode == retcode.LOGIN_GUEST_MUST_SIGNUP_FIRST then
-		message.request("CSSignup", { name = "alice" })
-	end
-end
-
-function event:SCPing()
-	print("ping")
-	--message.request "ping"
-end
-
-function event:SCSignin(resp)
-	print("signin!!!", resp.name, resp.ok)
-	
-	 if resp.ok then
-	 	message.request("CSPing", {})
-	 	message.request("CSLogin", { name = "alice" })
-	 else
-	 	-- signin failed, signup
-	 	message.request("CSSignup", { userid = "alice" })
-	 end
-end
-
-function event:SCSignup(resp)
-	print("signup!!!, then signin", resp.name, resp.ok)
-
-	message.request("CSSignin", { name = "alice" })
-end
-
-function event:signup(resp)
-	print("signup", resp.ok)
-	if resp.ok then
-		message.request("signin", { userid = "alice" })
-	else
-		error "Can't signup"
-	end
-end
-
-function event:SCLogin(resp)
-	print("login", resp.ok)
-	--if resp.ok then
-		message.request("CSPing", {})
-	--else
-	--	error "Can't login"
-	--end
-end
-
 function event:push(args)
 	print("server push", args.text)
 end
@@ -78,19 +29,18 @@ function event:test(resp)
 	--print("req test args= %d %d %s %d", req.param1, req.param2, req.param3, req.param4)
 end
 
-function event:upload_maze(args)
-	print("upload maze")
-end
-
-function event:player_info(args)
-	print("player_info 111" .. args.player_name)
+function event:MsgPlayerInfoResp(args)
+	print("player_info resp" .. args.player_name .. " " .. args.player_id .. " " .. args.story_record .. " " .. args.challenging_maze_type .. " " .. args.challenging_maze_id)
 end
 
 function event:MsgLoginRsp(args)
 	print("event:MsgLoginRsp...")
+	message.request("PbPlayer.MsgPlayerInfoReq", {})
+	--message.request("PbPlayer.MsgChangeNickNameReq", { nickname = "elenno" })
 end
 
 message.request("PbLogin.MsgLoginReq", {platform=1, user_id="alice"})
+
 --message.request("CSSignin", { name = "alice" })
 --message.request("test", { param1 = 1, param2 = 2, param3 = "test123", param4 = 3})
 --[[

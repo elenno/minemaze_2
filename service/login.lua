@@ -19,10 +19,10 @@ function CMD.login(fd, msg)
         fd_user_map[fd] = msg.user_id
         fd_player_id_map[fd] = user.player_id
         log.log("CMD.login user_id=" .. msg.user_id)
-		return true
+		return user.player_id
 	end
 
-	return false
+	return nil
 end
 
 function CMD.on_logout(fd)  --todo
@@ -82,9 +82,11 @@ skynet.start(function()
         utils.print("login dispatch cmd=" .. cmd)
         local f = CMD[cmd]
         if f then
-            f(...)
+            local ret = f(...)
+            skynet.ret(skynet.pack(ret))
         else
             log.log("login service_clienthandler invalid_cmd %s", cmd)
+            skynet.ret(skynet.pack(nil, "login service_clienthandler invalid_cmd " .. cmd))
         end
     end)
 end)

@@ -15,7 +15,7 @@ message MsgPlayerInfoResp{
 message MsgPlayerInfoReq{
 }
 
-//玩家全部信息请求（关卡，自定义迷宫等数据）
+//玩家全部信息请求（关卡，自定义迷宫等数据） --TODO
 message MsgPlayerAllInfoReq{
 }
 

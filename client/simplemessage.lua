@@ -121,6 +121,7 @@ function message.update(ti)
 	end
 	utils.print(msg)
 	local name, args = message.unpack(msg)
+	utils.print(args)
 
 	for obj, handler in pairs(var.object) do
 		local f = handler[name]

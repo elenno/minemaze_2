@@ -77,6 +77,11 @@ function player_manager.send_player_info(player_id, player_info)
 	skynet.send("watchdog", "lua", "socket", "send", player_info.net_id, 0, "PbPlayer.MsgPlayerInfoResp",  MsgPlayerInfoResp)
 end
 
+function player_manager.on_query_player_info_req(player_id)
+	local player_info = player_manager.get_player(player_id)
+	player_manager.send_player_info(player_id, player_info)
+end
+
 function player_manager.start_challenge(player_id, maze_type, maze_id)
 	local player_info = player_manager.get_player(player_id)
 	if not player_info then
@@ -161,9 +166,11 @@ skynet.start(function()
         utils.print("player_manager service dispatch cmd=" .. cmd)
         local f = player_manager[cmd]
         if f then
-            f(...)
+            local ret = f(...)
+            skynet.ret(skynet.pack(ret))
         else
             log.log("player_manager service invalid_cmd %s", cmd)
+			skynet.ret(skynet.pack(nil, "player_manager service_clienthandler invalid_cmd " .. cmd))
         end
     end)
 end)
