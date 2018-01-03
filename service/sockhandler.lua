@@ -35,6 +35,7 @@ function funs.login_req(fd, msg)
             platform = msg.platform,
             user_id = msg.user_id
         }      
+        utils.print(MsgLoginRsp)
         skynet.send("watchdog", "lua", "socket", "send", fd, 0, "PbLogin.MsgLoginRsp",  MsgLoginRsp)
     else
         local MsgErrorResp = {

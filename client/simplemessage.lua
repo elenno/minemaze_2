@@ -13,6 +13,8 @@ local var = {
 local pb_files = {
 	"./proto/pblogin.pb",
 	"./proto/pbhead.pb",
+	"./proto/pbplayer.pb",
+	"./proto/pbcommon.pb"
 }
 
 function message.register()
@@ -40,7 +42,7 @@ function message.encode(msg_name, msg)
 end
 
 function message.decode(msg_name, data)
-	utils.print("decode ".. msg_name.. " " .. type(data) .." " .. #data)
+	utils.print("decode ".. msg_name.. " " .. type(data) .." " .. #data .. " " .. data)
 	return protobuf.decode(msg_name, data)
 end
 
