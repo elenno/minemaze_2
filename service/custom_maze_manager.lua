@@ -70,9 +70,10 @@ function custom_maze_manager.add_custom_maze(player_id, maze_id)
 end
 
 function custom_maze_manager.on_create_custom_maze_req(fd, player_id, maze_info)
-	local maze_id = mongo_manager.get_data_count("custom_maze", {})
+	local maze_id = mongo_manager.get_data_count("custom_maze", {}) -- TODO 改为获取最大的maze_id+1
 	maze_info["maze_id"] = maze_id
 	maze_info["player_id"] = player_id
+	maze_info["enable"] = true
 	custom_maze_manager.add_custom_maze(player_id, maze_id) --add包含了save了
 	custom_maze_manager.save_maze_info(maze_id, maze_info)	--保存自定义迷宫
 
@@ -84,7 +85,7 @@ function custom_maze_manager.on_query_my_custom_maze_list_req(fd, player_id)
 	local custom_maze = custom_maze_manager.get_player_custom_maze(player_id)
 	for i = 1, #custom_maze.custom_maze_list do 
 		local maze_info = custom_maze_manager.get_maze_info(custom_maze.custom_maze_list[i])
-		if nil ~= maze_info then
+		if nil ~= maze_info and maze_info.enable then
 			local SimpleCustomMazeInfo = {}
 			SimpleCustomMazeInfo.maze_id = maze_info.maze_id
 			SimpleCustomMazeInfo.maze_name = maze_info.maze_name
@@ -96,6 +97,23 @@ function custom_maze_manager.on_query_my_custom_maze_list_req(fd, player_id)
 
 	MsgMyCustomMazeListResp.maze_count = #MsgMyCustomMazeListResp.maze_list
 	skynet.send("watchdog", "lua", "socket", "send", fd, 0, "PbPlayer.MsgMyCustomMazeListResp",  MsgMyCustomMazeListResp)
+end
+
+function custom_maze_manager.on_delete_custom_maze_req(fd, player_id, maze_id)
+	local my_custom_maze = custom_maze_manager.get_player_custom_maze(player_id)
+	for i = 1, #my_custom_maze.custom_maze_list do
+		if maze_id == my_custom_maze.custom_maze_list[i] then
+			local maze_info = custom_maze_manager.get_maze_info(maze_id)
+			if nil ~= maze_info then
+				if maze_info.player_id == player_id then
+					maze_info.enable = false
+					custom_maze_manager.on_query_my_custom_maze_list_req(fd, player_id)
+				end
+			end
+
+			break
+		end 
+	end
 end
 
 function custom_maze_manager.on_query_maze_info_req(fd, player_id, maze_id)

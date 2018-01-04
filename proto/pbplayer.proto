@@ -51,6 +51,11 @@ message MsgUploadCustomMazeReq{
 	required int32 maze_setting_flag = 11;
 }
 
+//玩家删除自定义迷宫
+message MsgDeleteCustomMazeReq{
+	required int32 maze_id = 1;
+}
+
 //玩家请求获取迷宫信息
 message MsgMazeInfoReq{
 	required int32 maze_type = 1;

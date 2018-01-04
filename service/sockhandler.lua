@@ -20,6 +20,7 @@ local handler_arr = {
     ["PbPlayer.MsgUploadCustomMazeReq"] = function(...) funs.upload_custom_maze_req(...) end,
     ["PbPlayer.MsgMyCustomMazeListReq"] = function(...) funs.my_custom_maze_list_req(...) end,
     ["PbPlayer.MsgMazeInfoReq"] = function(...) funs.maze_info_req(...) end,
+    ["PbPlayer.MsgDeleteCustomMazeReq"] = function(...) funs.delete_custom_maze_req(...) end,
 }
 
 --------------------------------------------------------------------------------
@@ -144,6 +145,17 @@ function funs.maze_info_req(fd, msg)
     --elseif
         --todo 读配置中的故事模式的迷宫信息
     end
+end
+
+--删除玩家某个自定义迷宫
+function funs.delete_custom_maze_req(fd, msg)
+    local player_id = skynet.call(login, "lua", "get_player_id_by_fd", fd)
+    if nil == player_id then
+        return
+    end
+
+    local maze_id = msg.maze_id
+    skynet.send(service.custom_maze_manager, "lua", "on_delete_custom_maze_req", fd, player_id, maze_id)
 end
 
 --创建房间
