@@ -117,8 +117,13 @@ function funs.upload_custom_maze_req(fd, msg)
 	maze_info.head_line = msg.head_line
 	maze_info.head_line_remark = msg.head_line_remark
 	maze_info.maze_setting_flag = msg.maze_setting_flag
+    maze_info.maze_id = msg.maze_id
 
-	skynet.send(service.custom_maze_manager, "lua", "on_create_custom_maze_req", fd, player_id, maze_info)
+    if -1 == msg.maze_id then
+        skynet.send(service.custom_maze_manager, "lua", "on_create_custom_maze_req", fd, player_id, maze_info)
+    else
+        skynet.send(service.custom_maze_manager, "lua", "on_edit_custom_maze_req", fd, player_id, maze_info)
+    end
 end
 
 --请求玩家自身的自定义迷宫列表

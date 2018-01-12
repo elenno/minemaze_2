@@ -1,5 +1,5 @@
 
-Ÿ	
+Í	
 pbplayer.protoPbPlayer"ç
 MsgPlayerInfoResp
 	player_id (
@@ -16,7 +16,7 @@
 maze_id (":
 MsgStartChallengeReq
 	maze_type (
-maze_id ("˛
+maze_id ("è
 MsgUploadCustomMazeReq
 	maze_name (	
 maze_height (
@@ -30,7 +30,8 @@ maze_width (
 	head_line	 (	
 head_line_remark
  (	
-maze_setting_flag (")
+maze_setting_flag (
+maze_id (")
 MsgDeleteCustomMazeReq
 maze_id ("4
 MsgMazeInfoReq

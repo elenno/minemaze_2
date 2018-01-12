@@ -80,6 +80,16 @@ function custom_maze_manager.on_create_custom_maze_req(fd, player_id, maze_info)
 	skynet.send(player_manager, "lua", "send_operate_notice", player_id, retcode.OK)
 end
 
+function custom_maze_manager.on_edit_custom_maze_req(fd, player_id, maze_info)
+	local maze_info_2 = custom_maze_manager.get_maze_info(maze_info.maze_id)
+	if nil ~= maze_info_2 and maze_info_2.enable and maze_info_2.player_id == player_id then
+		maze_info.player_id = player_id
+		maze_info.enable = true
+		custom_maze_manager.save_maze_info(maze_info.maze_id, maze_info)
+		skynet.send(player_manager, "lua", "send_operate_notice", player_id, retcode.OK)
+	end
+end
+
 function custom_maze_manager.on_query_my_custom_maze_list_req(fd, player_id)
 	local MsgMyCustomMazeListResp = {}
 	local custom_maze = custom_maze_manager.get_player_custom_maze(player_id)
@@ -107,13 +117,18 @@ function custom_maze_manager.on_delete_custom_maze_req(fd, player_id, maze_id)
 			if nil ~= maze_info then
 				if maze_info.player_id == player_id then
 					maze_info.enable = false
-					custom_maze_manager.on_query_my_custom_maze_list_req(fd, player_id)
+					custom_maze_manager.save_maze_info(maze_id, maze_info)
+					
 				end
 			end
 
+			table.remove(my_custom_maze.custom_maze_list, i)
+			custom_maze_manager.save_player_custom_maze(player_id, my_custom_maze)
 			break
 		end 
 	end
+
+	custom_maze_manager.on_query_my_custom_maze_list_req(fd, player_id)
 end
 
 function custom_maze_manager.on_query_maze_info_req(fd, player_id, maze_id)

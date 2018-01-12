@@ -49,6 +49,7 @@ message MsgUploadCustomMazeReq{
 	required string head_line = 9;
 	required string head_line_remark = 10;
 	required int32 maze_setting_flag = 11;
+	required int32 maze_id = 12;
 }
 
 //玩家删除自定义迷宫
